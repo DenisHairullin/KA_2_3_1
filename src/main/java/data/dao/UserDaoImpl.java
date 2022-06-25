@@ -4,7 +4,6 @@ import data.model.User;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -42,6 +41,5 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void clearUsers() {
         entityManager.createQuery("delete from User").executeUpdate();
-        entityManager.clear();
     }
 }

@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import javax.transaction.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DataConfig.class)
@@ -17,21 +16,17 @@ public class DataTest {
     UserService userService;
 
     @Test
-    @Transactional
     public void userGetTest() {
         Assert.assertNull(userService.getUser(0L));
     }
 
     @Test
-    @Transactional
     public void userAddTest() {
         Long id = userService.addUser(createRandomUser());
         Assert.assertNotNull(userService.getUser(id));
-        userService.removeUser(id);
     }
 
     @Test
-    @Transactional
     public void userRemoveTest() {
         Long id = userService.addUser(createRandomUser());
         userService.removeUser(id);
@@ -39,7 +34,6 @@ public class DataTest {
     }
 
     @Test
-    @Transactional
     public void userUpdateTest() {
         Long id = userService.addUser(createRandomUser());
         User user = userService.getUser(id);
@@ -47,11 +41,9 @@ public class DataTest {
         user.setFirstName(newName);
         userService.updateUser(user);
         Assert.assertEquals(userService.getUser(id).getFirstName(), newName);
-        userService.removeUser(id);
     }
 
     @Test
-    @Transactional
     public void userClearTest() {
         Long id = userService.addUser(createRandomUser());
         userService.clearUsers();
@@ -59,8 +51,8 @@ public class DataTest {
     }
 
     @Test
-    @Transactional
     public void userListTest() {
+        System.out.println(userService.listUsers());
         userService.clearUsers();
         userService.addUser(createRandomUser());
         userService.addUser(createRandomUser());
