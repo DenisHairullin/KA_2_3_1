@@ -52,7 +52,6 @@ public class DataTest {
 
     @Test
     public void userListTest() {
-        System.out.println(userService.listUsers());
         userService.clearUsers();
         userService.addUser(createRandomUser());
         userService.addUser(createRandomUser());

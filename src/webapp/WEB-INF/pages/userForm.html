@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet">
+</head>
+<body>
+    <form class="user-form" method="post" th:object="${user}" th:action="@{/users/edit}">
+        <input type="hidden" th:field="*{id}">
+        <div>
+            <label>
+                First Name:
+                <input type="text" th:field="*{firstName}">
+            </label>
+        </div>
+        <div>
+            <label>
+                Last Name:
+                <input type="text" th:field="*{lastName}">
+            </label>
+        </div>
+        <div class="align-right">
+            <button type="submit" th:name="action" th:value="Submit">Submit</button>
+            <button type="submit" th:name="action" th:value="Cancel">Cancel</button>
+        </div>
+    </form>
+</body>
+</html>

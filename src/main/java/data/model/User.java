@@ -1,9 +1,7 @@
 package data.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class User {
@@ -11,8 +9,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    @NotBlank
     private String firstName;
 
+    @Column(nullable = false)
+    @NotBlank
     private String lastName;
 
     public User() {}
