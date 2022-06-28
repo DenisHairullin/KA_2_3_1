@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
     <link th:href="@{/styles/main.css}" rel="stylesheet">
 </head>
 <body>
-    <form class="user-form" method="post" th:object="${user}" th:action="@{/users/edit}">
+    <form class="user-form" method="post" th:object="${user}">
         <input type="hidden" th:field="*{id}">
         <div>
             <label>
                 First Name:
                 <input type="text" th:field="*{firstName}">
+                <span class="validationError" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
+                        First Name Error
+                </span>
             </label>
-        </div>
+        </div><br/>
         <div>
             <label>
                 Last Name:
                 <input type="text" th:field="*{lastName}">
+                <span class="validationError" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
+                        Last Name Error
+                </span>
             </label>
         </div>
         <div class="align-right">
