@@ -1,4 +1,4 @@
-package data.model;
+package crud.data.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

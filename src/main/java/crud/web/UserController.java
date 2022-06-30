@@ -1,7 +1,7 @@
-package web.controller;
+package crud.web;
 
-import data.model.User;
-import data.service.UserService;
+import crud.data.model.User;
+import crud.data.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping
     public String showUsers(Model model) {
-        model.addAttribute("users", userService.listUsers());
+        model.addAttribute("users", userService.findAll());
         return "users";
     }
 
@@ -35,20 +35,19 @@ public class UserController {
         if (errors.hasErrors()) {
             return "userForm";
         }
-        userService.addUser(user);
+        userService.save(user);
         return "redirect:/users";
     }
 
-    @GetMapping("/remove")
-    public String processRemoveUser(@RequestParam(name = "id") Long id) {
-        userService.removeUser(id);
+    @PostMapping(path = "add", params = "action=Cancel")
+    public String cancelAddUser() {
         return "redirect:/users";
     }
 
     @GetMapping("/edit")
     public String showEditUser(Model model, @RequestParam(name = "id") Long id)
     {
-        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("user", userService.findById(id));
         return "userForm";
     }
 
@@ -57,12 +56,18 @@ public class UserController {
         if (errors.hasErrors()) {
             return "userForm";
         }
-        userService.updateUser(user);
+        userService.save(user);
         return "redirect:/users";
     }
 
-    @PostMapping(path = {"add", "/edit"}, params = "action=Cancel")
+    @PostMapping(path = "/edit", params = "action=Cancel")
     public String cancelEditUser() {
+        return "redirect:/users";
+    }
+
+    @GetMapping("/remove")
+    public String processRemoveUser(@RequestParam(name = "id") Long id) {
+        userService.deleteById(id);
         return "redirect:/users";
     }
 }
