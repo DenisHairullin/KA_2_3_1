@@ -47,7 +47,9 @@ public class UserController {
     @GetMapping("/edit")
     public String showEditUser(Model model, @RequestParam(name = "id") Long id)
     {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("User with id " + id + " not found")
+        ));
         return "userForm";
     }
 
