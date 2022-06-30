@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -15,8 +16,9 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
 @Configuration
-@ComponentScan("web")
+@ComponentScan({"web", "aop"})
 @EnableWebMvc
+@EnableAspectJAutoProxy
 public class WebConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
@@ -33,7 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
         templateResolver.setPrefix("/WEB-INF/pages/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCacheable(true);
+        templateResolver.setCacheable(false);
 
         return templateResolver;
     }
