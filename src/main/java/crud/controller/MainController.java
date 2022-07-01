@@ -1,6 +1,5 @@
-package web.controller;
+package crud.controller;
 
-import data.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

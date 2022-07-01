@@ -1,7 +1,7 @@
-package web.controller;
+package crud.controller;
 
-import data.model.User;
-import data.service.UserService;
+import crud.model.User;
+import crud.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -39,16 +39,18 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @GetMapping("/remove")
-    public String processRemoveUser(@RequestParam(name = "id") Long id) {
-        userService.removeUser(id);
+    @PostMapping(path = "add", params = "action=Cancel")
+    public String cancelAddUser() {
         return "redirect:/users";
     }
 
     @GetMapping("/edit")
-    public String showEditUser(Model model, @RequestParam(name = "id") Long id)
-    {
-        model.addAttribute("user", userService.getUser(id));
+    public String showEditUser(Model model, @RequestParam(name = "id") Long id) {
+        User user = userService.getUser(id);
+        if (user == null) {
+            return "userNotFound";
+        }
+        model.addAttribute("user", user);
         return "userForm";
     }
 
@@ -61,8 +63,17 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @PostMapping(path = {"add", "/edit"}, params = "action=Cancel")
+    @PostMapping(path = "/edit", params = "action=Cancel")
     public String cancelEditUser() {
+        return "redirect:/users";
+    }
+
+    @GetMapping("/remove")
+    public String processRemoveUser(@RequestParam(name = "id") Long id) {
+        if (userService.getUser(id) == null) {
+            return "userNotFound";
+        }
+        userService.removeUser(id);
         return "redirect:/users";
     }
 }

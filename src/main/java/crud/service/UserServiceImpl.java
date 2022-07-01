@@ -1,10 +1,10 @@
-package data.service;
+package crud.service;
 
-import data.dao.UserDao;
-import data.model.User;
+import crud.dao.UserDao;
+import crud.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

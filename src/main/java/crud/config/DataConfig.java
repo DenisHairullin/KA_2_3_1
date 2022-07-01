@@ -1,4 +1,4 @@
-package data.config;
+package crud.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,8 +18,8 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan("data")
-@PropertySource("classpath:db.properties")
+@ComponentScan("crud")
+@PropertySource("classpath:/db.properties")
 @EnableTransactionManagement
 public class DataConfig {
     private final Environment environment;
@@ -48,7 +48,7 @@ public class DataConfig {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
         entityManagerFactory.setDataSource(dataSource());
-        entityManagerFactory.setPackagesToScan("data");
+        entityManagerFactory.setPackagesToScan("crud");
         entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactory.setJpaProperties(vendorProperties());
 

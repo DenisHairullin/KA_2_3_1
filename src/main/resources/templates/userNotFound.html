@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="align-center">
+        <h1 th:text="|User with id '${param.id}' not found!|"></h1>
+        <a th:href="@{/users}">Return to users table</a>
+    </div>
+</body>
+</html>

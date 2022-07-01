@@ -1,6 +1,8 @@
-import data.config.DataConfig;
-import data.model.User;
-import data.service.UserService;
+package crud;
+
+import crud.config.DataConfig;
+import crud.model.User;
+import crud.service.UserService;
 import net.bytebuddy.utility.RandomString;
 import org.junit.Assert;
 import org.junit.Test;

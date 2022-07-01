@@ -1,14 +1,11 @@
-package data.service;
+package crud.dao;
 
-import data.model.User;
-import org.springframework.stereotype.Service;
-
+import crud.model.User;
 import java.util.List;
 
-@Service
-public interface UserService {
-    User getUser(Long id);
+public interface UserDao {
     List<User> listUsers();
+    User getUser(Long id);
     Long addUser(User user);
     void updateUser(User user);
     void removeUser(Long id);

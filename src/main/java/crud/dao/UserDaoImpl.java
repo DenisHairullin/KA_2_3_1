@@ -1,6 +1,6 @@
-package data.dao;
+package crud.dao;
 
-import data.model.User;
+import crud.model.User;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
