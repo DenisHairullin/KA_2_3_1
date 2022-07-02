@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Header</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div th:fragment="header" class="header" th:with="principal=${#request.userPrincipal.getPrincipal()}">
+        <div class="inline">
+            <span th:text="${principal.getLogin()}"></span>
+            <span th:text="${principal.getRoles().![getName()]}"></span>
+        </div>
+        <div class="float-right">
+            <div class="inline">
+                <span><a th:href="@{/user}">User</a></span>
+                <span><a th:if="${principal.getRoles().![getName()].contains('ROLE_ADMIN')}"
+                         th:href="@{/admin}">Admin</a></span>
+            </div>
+            <span><a th:href="@{/logout}">Logout</a></span>
+        </div>
+    </div>
+</body>
+</html>

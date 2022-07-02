@@ -3,6 +3,8 @@ package crud.dao;
 import crud.model.User;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -14,6 +16,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getUser(Long id) {
         return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public User getUser(String login) {
+        try {
+            return (User) entityManager.createQuery("select u from User u where u.login = :login")
+                    .setParameter("login", login).getSingleResult();
+        } catch (NoResultException | NonUniqueResultException e) {
+            return null;
+        }
     }
 
     @Override

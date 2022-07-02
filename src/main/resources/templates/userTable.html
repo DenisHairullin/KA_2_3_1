@@ -2,10 +2,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>Users table</title>
     <link th:href="@{/styles/main.css}" rel="stylesheet">
 </head>
 <body>
+    <div th:insert="fragments/header :: header"></div>
     <div>
         <p>
             <label>Users table:</label>
@@ -15,19 +16,23 @@
                 <th>Id</th>
                 <th>First name</th>
                 <th>Last name</th>
+                <th>Login</th>
+                <th>Roles</th>
                 <th>Action</th>
             </tr>
             <tr th:each="user : ${users}">
                 <td th:text="${user.getId()}">id</td>
                 <td th:text="${user.getFirstName()}">firstName</td>
                 <td th:text="${user.getLastName()}">lastName</td>
+                <td th:text="${user.getLogin()}">login</td>
+                <td th:text="${user.getRoles().![getName()]}">roles</td>
                 <td class="actions align-center">
-                    <a th:href="@{/users/edit(id=${user.getId()})}">Edit</a>
-                    <a th:href="@{/users/remove(id=${user.getId()})}">Remove</a>
+                    <a th:href="@{/admin/edit(id=${user.getId()})}">Edit</a>
+                    <a th:href="@{/admin/remove(id=${user.getId()})}">Remove</a>
                 </td>
             </tr>
         </table>
-        <form action="/users/add" class="align-right">
+        <form th:action="@{/admin/add}" class="align-right">
             <button type="submit">Add user</button>
         </form>
     </div>

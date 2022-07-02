@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
     @GetMapping
     String showMain(Model model) {
-        return "redirect:/users";
+        return "blank";
+    }
+
+    @GetMapping("/denied")
+    String showDenied() {
+        return "denied";
     }
 }

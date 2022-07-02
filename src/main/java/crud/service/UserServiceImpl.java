@@ -1,16 +1,24 @@
 package crud.service;
 
+import crud.dao.RoleDao;
 import crud.dao.UserDao;
 import crud.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
-
+public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserDao userDao;
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userDao.getUser(username);
+    }
 
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;

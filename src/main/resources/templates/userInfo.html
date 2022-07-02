@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User info</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:insert="fragments/header :: header"></div>
+    <p>
+        <label>User info:</label>
+    </p>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Login</th>
+            <th>Roles</th>
+        </tr>
+        <tr th:with="user=${#request.userPrincipal.getPrincipal()}">
+            <td th:text="${user.getId()}">id</td>
+            <td th:text="${user.getFirstName()}">firstName</td>
+            <td th:text="${user.getLastName()}">lastName</td>
+            <td th:text="${user.getLogin()}">login</td>
+            <td th:text="${user.getRoles().![getName()]}">roles</td>
+        </tr>
+    </table>
+</body>
+</html>

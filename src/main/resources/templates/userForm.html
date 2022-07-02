@@ -2,34 +2,71 @@
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>Edit user</title>
     <link th:href="@{/styles/main.css}" rel="stylesheet">
 </head>
 <body>
-    <form class="user-form" method="post" th:object="${user}">
-        <input type="hidden" th:field="*{id}">
-        <div>
-            <label>
-                First Name:
-                <input type="text" th:field="*{firstName}">
-                <span class="validationError" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
-                        First Name Error
-                </span>
-            </label>
-        </div><br/>
-        <div>
-            <label>
-                Last Name:
-                <input type="text" th:field="*{lastName}">
-                <span class="validationError" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
-                        Last Name Error
-                </span>
-            </label>
-        </div>
-        <div class="align-right">
-            <button type="submit" th:name="action" th:value="Submit">Submit</button>
-            <button type="submit" th:name="action" th:value="Cancel">Cancel</button>
-        </div>
-    </form>
+    <div th:insert="fragments/header :: header"></div>
+    <br/>
+    <div>
+        <form class="user-form" method="post" th:object="${user}" th:action="@{${#httpServletRequest.requestURI}}">
+            <input type="hidden" th:field="*{id}">
+            <div>
+                <label>
+                    First Name:
+                    <input type="text" th:field="*{firstName}">
+                    <span class="validationError" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
+                            First Name Error
+                    </span>
+                </label>
+            </div><br/>
+            <div>
+                <label>
+                    Last Name:
+                    <input type="text" th:field="*{lastName}">
+                    <span class="validationError" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
+                            Last Name Error
+                    </span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Login:
+                    <input type="text" th:field="*{login}">
+                    <span class="validationError" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">
+                            Login Error
+                    </span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Password:
+                    <input type="password" th:field="*{password}">
+                    <span class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                            Password Error
+                    </span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Roles:
+                    <select th:field="*{roles}" th:size="${allRoles.size()}"  multiple="multiple">
+                        <option th:each="role : ${allRoles}"
+                                th:value="${role.getId()}"
+                                th:text="${role.getName()}"
+                                th:selected="${user.roles.contains(role)}"
+                        >Role</option>
+                    </select>
+                    <span class="validationError" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">
+                            Roles Error
+                    </span>
+                </label>
+            </div>
+            <div class="align-right">
+                <button type="submit" th:name="action" th:value="Submit">Submit</button>
+                <button type="submit" th:name="action" th:value="Cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

@@ -20,7 +20,7 @@
 .table tbody tr:nth-child(even){
 	background: #F7F7F7;
 }
-.user-form input[type=text] {
+.user-form input[type=text], input[type=password], select {
 	width: 100%;
 	padding: 12px 20px;
 	margin: 8px 0;
@@ -48,3 +48,20 @@ button[type=submit] {
 	margin: 8px 0;
 }
 
+.header {
+	padding: 5px;
+	background: #efefef;
+}
+
+.header span {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.inline {
+	display: inline;
+}
+
+.float-right {
+	float: right;
+}
