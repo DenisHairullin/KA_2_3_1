@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .antMatchers("/user/**").authenticated()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .and()
                 .formLogin().successHandler(successUserHandler)
                 .permitAll()
