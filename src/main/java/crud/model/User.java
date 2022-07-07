@@ -33,7 +33,7 @@ public class User implements UserDetails {
     @NotBlank
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @OrderBy("name")
     private Set<Role> roles = new HashSet<>();
 
