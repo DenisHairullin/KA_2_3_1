@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 public class TemplateConfig {
     @Bean
     public LayoutDialect layoutDialect() {
-        return new LayoutDialect();
+        return new LayoutDialect(null, false);
     }
 }
