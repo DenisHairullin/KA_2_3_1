@@ -1,5 +1,6 @@
 package crud.model;
 
+import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -23,8 +24,9 @@ public class User implements UserDetails {
     @NotBlank
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank
+    @NaturalId
     private String login;
 
     @Column(nullable = false)
@@ -32,6 +34,7 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @OrderBy("name")
     private Set<Role> roles = new HashSet<>();
 
     public User() {}

@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -23,17 +24,17 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/").authenticated()
-                .and()
-                .authorizeRequests()
                 .antMatchers("/user/**").authenticated()
-                .and()
-                .authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .and()
-                .formLogin().successHandler(successUserHandler)
+                .formLogin()
+                .loginPage("/login")
+                .successHandler(successUserHandler)
                 .permitAll()
                 .and()
                 .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login")
                 .permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/denied");

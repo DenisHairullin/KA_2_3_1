@@ -1,6 +1,5 @@
 package crud.service;
 
-import crud.dao.RoleDao;
 import crud.dao.UserDao;
 import crud.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +16,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDao.getUser(username);
+        User user = userDao.getUser(username);
+        if (user != null) {
+            return user;
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 
     public UserServiceImpl(UserDao userDao) {

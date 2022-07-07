@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -26,65 +27,59 @@ public class AdminController {
     }
 
     @GetMapping
-    public String showUsers(Model model) {
+    public String showAdmin(Model model) {
         model.addAttribute("users", userService.listUsers());
-        return "userTable";
+        return "admin";
     }
 
-    @GetMapping("/add")
-    public String showAddUser(Model model) {
-        model.addAttribute("user", new User());
-        return "userForm";
-    }
-
-    @PostMapping(path = "/add", params = "action=Submit")
+    @PostMapping(path = "/add")
     public String processAddUser(@Valid User user, Errors errors) {
         if (errors.hasErrors()) {
-            return "userForm";
+            return "redirect:/admin/validationError";
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.addUser(user);
         return "redirect:/admin";
     }
 
-    @PostMapping(path = "add", params = "action=Cancel")
-    public String cancelAddUser() {
-        return "redirect:/admin";
-    }
-
-    @GetMapping("/edit")
-    public String showEditUser(Model model, @RequestParam(name = "id") Long id) {
-        User user = userService.getUser(id);
-        if (user == null) {
-            return "userNotFound";
-        }
-        model.addAttribute("user", user);
-        return "userForm";
-    }
-
-    @PostMapping(path = "/edit", params = "action=Submit")
-    public String processEditUser(@Valid User user, Errors errors) {
-        System.out.println(user);
+    @PostMapping(path = "/edit")
+    public String processEditUser(@Valid User user, Errors errors, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
-            return "userForm";
+            return "redirect:/admin/validationError";
+        }
+        if (userService.getUser(user.getId()) == null) {
+            attributes.addAttribute("id", user.getId());
+            return "redirect:/admin/notFoundError";
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.updateUser(user);
         return "redirect:/admin";
     }
 
-    @PostMapping(path = "/edit", params = "action=Cancel")
-    public String cancelEditUser() {
-        return "redirect:/admin";
-    }
-
-    @GetMapping("/remove")
-    public String processRemoveUser(@RequestParam(name = "id") Long id) {
+    @PostMapping("/remove")
+    public String processRemoveUser(@RequestParam(name = "id") Long id, RedirectAttributes attributes) {
         if (userService.getUser(id) == null) {
-            return "userNotFound";
+            attributes.addAttribute("id", id);
+            return "redirect:/admin/notFoundError";
         }
         userService.removeUser(id);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/validationError")
+    public String showValidationError() {
+        return "errorValidation";
+    }
+
+    @GetMapping("/notFoundError")
+    public String showNotFoundError() {
+        return "errorNotFound";
+    }
+
+    @GetMapping(path = "/check")
+    @ResponseBody
+    public Boolean checkUser(@RequestParam(name = "login") String login) {
+        return userService.listUsers().stream().noneMatch(x -> x.getLogin().equals(login));
     }
 
     @ModelAttribute("allRoles")
