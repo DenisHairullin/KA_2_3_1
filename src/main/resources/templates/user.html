@@ -26,12 +26,12 @@
           </tr>
           </thead>
           <tbody>
-          <tr th:with="user=${#request.userPrincipal.getPrincipal()}">
-            <td th:text="${user.getId()}">ID</td>
-            <td th:text="${user.getFirstName()}">First Name</td>
-            <td th:text="${user.getLastName()}">Last Name</td>
-            <td th:text="${user.getLogin()}">Login</td>
-            <td th:text="${#strings.arrayJoin(principal.getRoles().![getName()], ' ')}">Roles</td>
+          <tr th:with="user=${#authentication.principal}">
+            <td th:text="${user.id}">ID</td>
+            <td th:text="${user.firstName}">First Name</td>
+            <td th:text="${user.lastName}">Last Name</td>
+            <td th:text="${user.login}">Login</td>
+            <td th:text="${#strings.arrayJoin(principal.roles.![name], ' ')}">Roles</td>
           </tr>
           </tbody>
         </table>

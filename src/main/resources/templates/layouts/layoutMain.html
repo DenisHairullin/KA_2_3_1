@@ -10,12 +10,12 @@
   <title>Layout title</title>
 </head>
 <body>
-  <div th:with="principal=${#request.userPrincipal.getPrincipal()}">
+  <div th:with="principal=${#authentication.principal}">
     <nav class="navbar navbar-dark bg-dark py-1">
       <div class="navbar-text text-white">
-        <strong th:text="${principal.getLogin()}"></strong>
+        <strong th:text="${principal.login}"></strong>
         <span>with roles:</span>
-        <span th:text="${#strings.arrayJoin(principal.getRoles().![getName()], ' ')}"></span>
+        <span th:text="${#strings.arrayJoin(principal.roles.![name], ' ')}"></span>
       </div>
       <div class="navbar-nav">
         <a class="nav-item nav-link" th:href="@{/logout}">Logout</a>
@@ -26,11 +26,11 @@
         <div class="col-2 bg-white px-0 pt-3">
           <nav class="nav flex-column nav-pills">
             <a class="nav-link active"
-               th:if="${principal.getRoles().![getAuthority()].contains('ADMIN')}"
-               th:class="|nav-link ${#request.getRequestURI().startsWith('/admin') ? 'active' : ''}|"
+               th:if="${principal.getRoles().![authority].contains('ADMIN')}"
+               th:class="|nav-link ${#request.requestURI.startsWith('/admin') ? 'active' : ''}|"
                th:href="@{/admin}">Admin</a>
             <a class="nav-link"
-               th:class="|nav-link ${#request.getRequestURI().startsWith('/user') ? 'active' : ''}|"
+               th:class="|nav-link ${#request.requestURI.startsWith('/user') ? 'active' : ''}|"
                th:href="@{/user}">User</a>
           </nav>
         </div>
