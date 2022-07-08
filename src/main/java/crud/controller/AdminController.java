@@ -79,7 +79,7 @@ public class AdminController {
     @GetMapping(path = "/check")
     @ResponseBody
     public Boolean checkUser(@RequestParam(name = "login") String login) {
-        return userService.listUsers().stream().noneMatch(x -> x.getLogin().equals(login));
+        return userService.listUsers().stream().noneMatch(x -> x.getLogin().equalsIgnoreCase(login));
     }
 
     @ModelAttribute("allRoles")
