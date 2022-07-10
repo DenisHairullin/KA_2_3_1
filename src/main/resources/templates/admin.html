@@ -23,36 +23,10 @@
         <div class="card">
           <h5 class="card-header">All users</h5>
           <div class="card-body">
+            <div class="alert alert-danger text-break collapse" id="tableAllUsersAlert">
+              Error fetching data
+            </div>
             <table id="tableAllUsers" class="table table-striped">
-              <thead>
-              <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Login</th>
-                <th>Roles</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr th:each="user : ${users}">
-                <td th:text="${user.id}">ID</td>
-                <td th:text="${user.firstName}">First Name</td>
-                <td th:text="${user.lastName}">Last Name</td>
-                <td th:text="${user.login}">Login</td>
-                <td th:text="${#strings.arrayJoin(user.roles.![name], ' ')}"
-                    th:data-roles="${user.roles.![id]}">Roles</td>
-                <td>
-                  <button class="btn btn-info btn-sm btn-user-edit" type="button"
-                          data-toggle="modal" data-target="#modalEdit">Edit</button>
-                </td>
-                <td>
-                  <button class="btn btn-danger btn-sm btn-user-delete" type="button"
-                          data-toggle="modal" data-target="#modalDelete">Delete</button>
-                </td>
-              </tr>
-              </tbody>
             </table>
           </div>
         </div>
@@ -69,8 +43,10 @@
               <div class="modal-body">
                 <div class="row justify-content-center">
                   <div class="col-6">
-                    <form class="text-center" id="formUserEdit" th:action="@{/admin/edit}" method="post"
-                          th:data-check="@{/admin/check}">
+                    <form class="text-center" id="formUserEdit">
+                      <div class="alert alert-danger text-break collapse" id="userEditAlert">
+                        Alert
+                      </div>
                       <div class="form-group">
                         <label class="mb-0 font-weight-bold" for="userEditId">ID</label>
                         <input class="form-control form-control-sm" id="userEditId" type="text"
@@ -102,9 +78,7 @@
                       <div class="form-group">
                         <label class="mb-0 font-weight-bold" for="userEditRoles">Roles</label>
                         <select class="form-control form-control-sm" id="userEditRoles" multiple="multiple"
-                                th:size="${allRoles.size()}" name="roles">
-                          <option th:each="role : ${allRoles}" th:value="${role.id}"
-                                  th:text="${role.name}">ROLE</option>
+                                name="roles">
                         </select>
                       </div>
                     </form>
@@ -131,7 +105,10 @@
               <div class="modal-body">
                 <div class="row justify-content-center">
                   <div class="col-6">
-                    <form class="text-center" id="formUserDelete" th:action="@{/admin/remove}" method="post">
+                    <form class="text-center" id="formUserDelete">
+                      <div class="alert alert-danger text-break collapse" id="userDeleteAlert">
+                        Alert
+                      </div>
                       <div class="form-group">
                         <label class="mb-0 font-weight-bold" for="userDeleteId">ID</label>
                         <input class="form-control form-control-sm " id="userDeleteId" type="text"
@@ -152,9 +129,7 @@
                       <div class="form-group">
                         <label class="mb-0 font-weight-bold" for="userDeleteRoles">Roles</label>
                         <select class="form-control form-control-sm" id="userDeleteRoles" multiple="multiple"
-                                th:size="${allRoles.size()}" name="roles">
-                          <option th:each="role : ${allRoles}" th:value="${role.id}"
-                                  th:text="${role.name}">ROLE</option>
+                                name="roles">
                         </select>
                       </div>
                     </form>
@@ -176,8 +151,10 @@
           <div class="card-body">
             <div class="row justify-content-center">
               <div class="col-auto col-md-4">
-                <form class="text-center" th:action="@{/admin/add}" method="post" id="formUserAdd"
-                      th:data-check="@{/admin/check}">
+                <form class="text-center" method="post" id="formUserAdd">
+                  <div class="alert alert-danger text-break collapse" id="userAddAlert">
+                    Alert
+                  </div>
                   <div class="form-group">
                     <label class="mb-0 font-weight-bold" for="userAddFirstName">First name</label>
                     <input class="form-control form-control-sm" id="userAddFirstName" type="text"
@@ -203,13 +180,10 @@
                   </div>
                   <div class="form-group">
                     <label class="mb-0 font-weight-bold" for="userAddRoles">Roles</label>
-                    <select class="form-control form-control-sm" id="userAddRoles" multiple="multiple"
-                            th:size="${allRoles.size()}" name="roles">
-                      <option th:each="role : ${allRoles}" th:value="${role.id}"
-                              th:text="${role.name}">ROLE</option>
+                    <select class="form-control form-control-sm" id="userAddRoles" multiple="multiple" name="roles">
                     </select>
                   </div>
-                  <button type="submit" class="btn btn-success btn-lg">
+                  <button type="submit" class="btn btn-success btn-lg" id="userAddSubmit">
                     Add new user
                   </button>
                 </form>

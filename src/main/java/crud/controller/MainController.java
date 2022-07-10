@@ -26,6 +26,16 @@ public class MainController {
         }
     }
 
+    @GetMapping("/admin")
+    String showAdmin() {
+        return "admin";
+    }
+
+    @GetMapping("/user")
+    String showUser() {
+        return "user";
+    }
+
     @GetMapping("/denied")
     String showDenied() {
         return "errorDenied";
