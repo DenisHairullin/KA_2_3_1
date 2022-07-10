@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"login"})
+})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +27,7 @@ public class User implements UserDetails {
     @NotBlank
     private String lastName;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @NotBlank
     @NaturalId
     private String login;
