@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,6 +31,8 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(nullable = false)
+    @Min(0)
+    @Max(127)
     private Byte age;
 
     @Column(nullable = false)
