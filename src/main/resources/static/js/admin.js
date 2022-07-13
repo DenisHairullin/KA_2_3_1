@@ -97,8 +97,9 @@ function fillUsersTable() {
             + "<th>ID</th>"
             + "<th>First Name</th>"
             + "<th>Last Name</th>"
-            + "<th>Login</th>"
-            + "<th>Roles</th>"
+            + "<th>Age</th>"
+            + "<th>Email</th>"
+            + "<th>Role</th>"
             + "<th>Edit</th>"
             + "<th>Delete</th>"
             + "</tr></thead><tbody>");
@@ -107,7 +108,8 @@ function fillUsersTable() {
                 + `<td>${user.id}</td>`
                 + `<td>${user.firstName}</td>`
                 + `<td>${user.lastName}</td>`
-                + `<td>${user.login}</td>`
+                + `<td>${user.age}</td>`
+                + `<td>${user.email}</td>`
                 + `<td data-roles=[${user.roles.map(role => role.id).join(",")}]>`
                 + `${user.roles.map(role => role.name).join(" ")}</td>`
                 + `<td><button class="btn btn-info btn-sm btn-user-edit" type="button" data-toggle="modal" `
@@ -134,7 +136,8 @@ function fillModalEdit(button) {
             $("#userEditId").val(user.id);
             $("#userEditFirstName").val(user.firstName);
             $("#userEditLastName").val(user.lastName);
-            $("#userEditLogin").val(user.login);
+            $("#userEditAge").val(user.age);
+            $("#userEditEmail").val(user.email);
             $("#userEditPassword").val("");
             let roleIds = user.roles.map(role => role.id);
             $("#userEditRoles > option").each((i, o) => {
@@ -158,7 +161,8 @@ function fillModalDelete(button) {
             $("#userDeleteId").val(user.id);
             $("#userDeleteFirstName").val(user.firstName);
             $("#userDeleteLastName").val(user.lastName);
-            $("#userDeleteLogin").val(user.login);
+            $("#userDeleteAge").val(user.age);
+            $("#userDeleteEmail").val(user.email);
             $("#userDeletePassword").val("");
             let roleIds = user.roles.map(role => role.id);
             $("#userDeleteRoles > option").each((i, o) => {

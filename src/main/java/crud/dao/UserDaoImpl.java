@@ -19,10 +19,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUser(String login) {
+    public User getUser(String email) {
         try {
-            return (User) entityManager.createQuery("select u from User u where u.login = :login")
-                    .setParameter("login", login).getSingleResult();
+            return (User) entityManager.createQuery("select u from User u where u.email = :email")
+                    .setParameter("email", email).getSingleResult();
         } catch (NoResultException | NonUniqueResultException e) {
             return null;
         }

@@ -48,8 +48,8 @@ public class UserRestController {
                     + errors.getFieldErrors().stream().map(x -> x.getField() + " " + x.getDefaultMessage())
                     .collect(Collectors.joining("; ")));
         }
-        if (userService.getUser(user.getLogin()) != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with login '" + user.getLogin()
+        if (userService.getUser(user.getEmail()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email '" + user.getEmail()
                     + "' already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -59,7 +59,7 @@ public class UserRestController {
     @PutMapping("/update")
     public void updateUser(@RequestBody @Valid User user, Errors errors) {
         User userWithId = userService.getUser(user.getId());
-        User userWithLogin = userService.getUser(user.getLogin());
+        User userWithEmail = userService.getUser(user.getEmail());
         if (errors.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User validation error: "
                     + errors.getFieldErrors().stream().map(x -> x.getField() + " " + x.getDefaultMessage())
@@ -68,8 +68,8 @@ public class UserRestController {
         if (userWithId == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id '" + user.getId() + "' not found");
         }
-        if (userWithLogin != null && !userWithLogin.getId().equals(user.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with login '" + user.getLogin()
+        if (userWithEmail != null && !userWithEmail.getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email '" + user.getEmail()
                     + "' already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
