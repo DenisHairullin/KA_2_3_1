@@ -13,6 +13,7 @@
     <h1 class="display-1">400</h1>
     <h1 class="display-4">Bad Request</h1>
     <p class="lead">Oops, something wrong with data validation</p>
+    <p th:each="error : ${fieldErrors}" th:text="|'${error.field}': ${error.defaultMessage}|"></p>
     <button class="btn btn-primary" onclick="history.go(-1)">Back</button>
   </div>
 </div>

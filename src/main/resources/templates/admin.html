@@ -29,8 +29,9 @@
                 <th>ID</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Login</th>
-                <th>Roles</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Role</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -40,9 +41,10 @@
                 <td th:text="${user.id}">ID</td>
                 <td th:text="${user.firstName}">First Name</td>
                 <td th:text="${user.lastName}">Last Name</td>
-                <td th:text="${user.login}">Login</td>
+                <td th:text="${user.age}">Age</td>
+                <td th:text="${user.email}">Email</td>
                 <td th:text="${#strings.arrayJoin(user.roles.![name], ' ')}"
-                    th:data-roles="${user.roles.![id]}">Roles</td>
+                    th:data-roles="${user.roles.![id]}">Role</td>
                 <td>
                   <button class="btn btn-info btn-sm btn-user-edit" type="button"
                           data-toggle="modal" data-target="#modalEdit">Edit</button>
@@ -87,11 +89,16 @@
                                name="lastName" required>
                       </div>
                       <div class="form-group">
-                        <label class="mb-0 font-weight-bold" for="userEditLogin">Login</label>
-                        <input class="form-control form-control-sm" id="userEditLogin" type="text"
-                               name="login" required>
+                        <label class="mb-0 font-weight-bold" for="userEditAge">Age</label>
+                        <input class="form-control form-control-sm" id="userEditAge" type="number" min="0" max="255"
+                               name="age" required>
+                      </div>
+                      <div class="form-group">
+                        <label class="mb-0 font-weight-bold" for="userEditEmail">Email</label>
+                        <input class="form-control form-control-sm" id="userEditEmail" type="email"
+                               name="email" required>
                         <div class="invalid-feedback">
-                          Login already exists
+                          Email already exists
                         </div>
                       </div>
                       <div class="form-group">
@@ -100,7 +107,7 @@
                                name="password" required>
                       </div>
                       <div class="form-group">
-                        <label class="mb-0 font-weight-bold" for="userEditRoles">Roles</label>
+                        <label class="mb-0 font-weight-bold" for="userEditRoles">Role</label>
                         <select class="form-control form-control-sm" id="userEditRoles" multiple="multiple"
                                 th:size="${allRoles.size()}" name="roles">
                           <option th:each="role : ${allRoles}" th:value="${role.id}"
@@ -146,11 +153,15 @@
                         <input class="form-control form-control-sm" id="userDeleteLastName" type="text" readonly>
                       </div>
                       <div class="form-group">
-                        <label class="mb-0 font-weight-bold" for="userDeleteLogin">Login</label>
-                        <input class="form-control form-control-sm" id="userDeleteLogin" type="text" readonly>
+                        <label class="mb-0 font-weight-bold" for="userDeleteAge">Age</label>
+                        <input class="form-control form-control-sm" id="userDeleteAge" type="number" readonly>
                       </div>
                       <div class="form-group">
-                        <label class="mb-0 font-weight-bold" for="userDeleteRoles">Roles</label>
+                        <label class="mb-0 font-weight-bold" for="userDeleteEmail">Email</label>
+                        <input class="form-control form-control-sm" id="userDeleteEmail" type="text" readonly>
+                      </div>
+                      <div class="form-group">
+                        <label class="mb-0 font-weight-bold" for="userDeleteRoles">Role</label>
                         <select class="form-control form-control-sm" id="userDeleteRoles" multiple="multiple"
                                 th:size="${allRoles.size()}" name="roles">
                           <option th:each="role : ${allRoles}" th:value="${role.id}"
@@ -189,11 +200,16 @@
                            name="lastName" required>
                   </div>
                   <div class="form-group">
-                    <label class="mb-0 font-weight-bold" for="userAddLogin">Login</label>
-                    <input class="form-control form-control-sm" id="userAddLogin" type="text"
-                           name="login" required>
+                    <label class="mb-0 font-weight-bold" for="userAddAge">Age</label>
+                    <input class="form-control form-control-sm" id="userAddAge" type="number" min="0" max="255"
+                           name="age" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="mb-0 font-weight-bold" for="userAddEmail">Email</label>
+                    <input class="form-control form-control-sm" id="userAddEmail" type="email"
+                           name="email" required>
                     <div class="invalid-feedback">
-                      Login already exists
+                      Email already exists
                     </div>
                   </div>
                   <div class="form-group">
@@ -202,7 +218,7 @@
                            name="password" required>
                   </div>
                   <div class="form-group">
-                    <label class="mb-0 font-weight-bold" for="userAddRoles">Roles</label>
+                    <label class="mb-0 font-weight-bold" for="userAddRoles">Role</label>
                     <select class="form-control form-control-sm" id="userAddRoles" multiple="multiple"
                             th:size="${allRoles.size()}" name="roles">
                       <option th:each="role : ${allRoles}" th:value="${role.id}"

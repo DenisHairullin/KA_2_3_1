@@ -33,8 +33,9 @@ public class AdminController {
     }
 
     @PostMapping(path = "/add")
-    public String processAddUser(@Valid User user, Errors errors) {
+    public String processAddUser(@Valid User user, Errors errors, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
+            attributes.addFlashAttribute("fieldErrors", errors.getFieldErrors());
             return "redirect:/admin/validationError";
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -45,6 +46,7 @@ public class AdminController {
     @PostMapping(path = "/edit")
     public String processEditUser(@Valid User user, Errors errors, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
+            attributes.addAttribute("fieldErrors", errors.getFieldErrors());
             return "redirect:/admin/validationError";
         }
         if (userService.getUser(user.getId()) == null) {
@@ -78,8 +80,8 @@ public class AdminController {
 
     @GetMapping(path = "/check")
     @ResponseBody
-    public Boolean checkUser(@RequestParam(name = "login") String login) {
-        return userService.listUsers().stream().noneMatch(x -> x.getLogin().equalsIgnoreCase(login));
+    public Boolean checkUser(@RequestParam(name = "email") String email) {
+        return userService.listUsers().stream().noneMatch(x -> x.getEmail().equalsIgnoreCase(email));
     }
 
     @ModelAttribute("allRoles")

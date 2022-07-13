@@ -1,10 +1,10 @@
 package crud.model;
 
-import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"login"})
+        @UniqueConstraint(columnNames = {"email"})
 })
 public class User implements UserDetails {
     @Id
@@ -28,9 +28,12 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(nullable = false)
+    private Byte age;
+
+    @Column(nullable = false)
     @NotBlank
-    @NaturalId
-    private String login;
+    @Email
+    private String email;
 
     @Column(nullable = false)
     @NotBlank
@@ -41,13 +44,6 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
     public User() {}
-
-    public User(String firstName, String lastName, String login, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.login = login;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;
@@ -73,12 +69,20 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    public String getLogin() {
-        return login;
+    public Byte getAge() {
+        return age;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setAge(Byte age) {
+        this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPassword(String password) {
@@ -105,7 +109,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
     @Override
@@ -134,7 +138,8 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", login='" + login + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';

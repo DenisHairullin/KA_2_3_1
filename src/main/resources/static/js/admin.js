@@ -1,14 +1,15 @@
 const COLUMN_ID = 0;
 const COLUMN_FIRST_NAME = 1;
 const COLUMN_LAST_NAME = 2;
-const COLUMN_LOGIN = 3;
-const COLUMN_ROLES = 4;
+const COLUMN_AGE = 3;
+const COLUMN_EMAIL = 4;
+const COLUMN_ROLES = 5;
 
 $("#tableAllUsers .btn-user-edit").click(function() {fillModalEdit(this);});
 $("#tableAllUsers .btn-user-delete").click(function() {fillModalDelete(this);});
 $("#formUserAdd").submit(function() {return userAddSubmit(this)});
 $("#formUserEdit").submit(function() {return userEditSubmit(this)});
-$("#userEditLogin, #userAddLogin").change(function() {$(this).removeClass("is-invalid")});
+$("#userEditEmail, #userAddEmail").change(function() {$(this).removeClass("is-invalid")});
 
 function fillModalEdit(button) {
     let $row = $(button).parents("tr").children("td").not(":has(button)");
@@ -17,7 +18,8 @@ function fillModalEdit(button) {
     $("#userEditId").val($values[COLUMN_ID]);
     $("#userEditFirstName").val($values[COLUMN_FIRST_NAME]);
     $("#userEditLastName").val($values[COLUMN_LAST_NAME]);
-    $("#userEditLogin").val($values[COLUMN_LOGIN]).data("originalLogin", $values[COLUMN_LOGIN])
+    $("#userEditAge").val($values[COLUMN_AGE]);
+    $("#userEditEmail").val($values[COLUMN_EMAIL]).data("originalEmail", $values[COLUMN_EMAIL])
         .removeClass("is-invalid");
     $("#userEditPassword").val("");
     $("#userEditRoles > option").each(function(index, option) {
@@ -32,7 +34,8 @@ function fillModalDelete(button) {
     $("#userDeleteId").val($values[COLUMN_ID]);
     $("#userDeleteFirstName").val($values[COLUMN_FIRST_NAME]);
     $("#userDeleteLastName").val($values[COLUMN_LAST_NAME]);
-    $("#userDeleteLogin").val($values[COLUMN_LOGIN]);
+    $("#userDeleteAge").val($values[COLUMN_AGE]);
+    $("#userDeleteEmail").val($values[COLUMN_EMAIL]);
     $("#userDeleteRoles > option").each(function(index, option) {
         $(option).attr("disabled", true);
         $(option).prop("selected", $.inArray(parseInt($(option).val()), $($row[COLUMN_ROLES]).data()['roles']) !== -1);
@@ -40,8 +43,8 @@ function fillModalDelete(button) {
 }
 
 function userAddSubmit(form) {
-    let $field = $("#userAddLogin");
-    let url = $(form).data('check') + "?login=" + $field.val();
+    let $field = $("#userAddEmail");
+    let url = $(form).data('check') + "?email=" + $field.val();
     let result = true;
 
     $.ajax({
@@ -61,11 +64,11 @@ function userAddSubmit(form) {
 }
 
 function userEditSubmit(form) {
-    let $field = $("#userEditLogin");
+    let $field = $("#userEditEmail");
     let result = true;
 
-    if ($field.data("originalLogin") !== $field.val()) {
-        let url = $(form).data('check') + "?login=" + $field.val();
+    if ($field.data("originalEmail") !== $field.val()) {
+        let url = $(form).data('check') + "?email=" + $field.val();
         $.ajax({
             url: url,
             success: function (data) {
