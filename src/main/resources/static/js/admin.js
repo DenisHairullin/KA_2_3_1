@@ -110,8 +110,10 @@ function fillUsersTable() {
                 + `<td>${user.lastName}</td>`
                 + `<td>${user.age}</td>`
                 + `<td>${user.email}</td>`
-                + `<td data-roles=[${user.roles.map(role => role.id).join(",")}]>`
-                + `${user.roles.map(role => role.name).join(" ")}</td>`
+                + `<td data-roles=[${user.roles.filter(role => role.name.startsWith('ROLE_')).map(role => role.id)
+                    .join(",")}]>`
+                + `${user.roles.filter(role => role.name.startsWith('ROLE_')).map(role => role.name.substring(5))
+                    .join(" ")}</td>`
                 + `<td><button class="btn btn-info btn-sm btn-user-edit" type="button" data-toggle="modal" `
                 + `data-target="#modalEdit" data-id="${user.id}">Edit</button></td>`
                 + `<td><button class="btn btn-danger btn-sm btn-user-delete" type="button" data-toggle="modal" `
@@ -128,9 +130,10 @@ function fillUsersTable() {
 
 function fillModalEdit(button) {
     getRoles().then(roles => {
-        $("#userEditRoles").attr("size", roles.length).find("option").remove();
-        roles.forEach(role => {
-            $("#userEditRoles").append(`<option value=\"${role.id}\">${role.name}</option>`);
+        let onlyRoles = roles.filter(role => role.name.startsWith('ROLE_'));
+        $("#userEditRoles").attr("size", onlyRoles.length).find("option").remove();
+        onlyRoles.forEach(role => {
+            $("#userEditRoles").append(`<option value=\"${role.id}\">${role.name.substring(5)}</option>`);
         })
         getUser($(button).data("id")).then(user => {
             $("#userEditId").val(user.id);
@@ -153,9 +156,10 @@ function fillModalEdit(button) {
 
 function fillModalDelete(button) {
     getRoles().then(roles => {
-        $("#userDeleteRoles").attr("size", roles.length).find("option").remove();
-        roles.forEach(role => {
-            $("#userDeleteRoles").append(`<option value=\"${role.id}\">${role.name}</option>`);
+        let onlyRoles = roles.filter(role => role.name.startsWith('ROLE_'));
+        $("#userDeleteRoles").attr("size", onlyRoles.length).find("option").remove();
+        onlyRoles.forEach(role => {
+            $("#userDeleteRoles").append(`<option value=\"${role.id}\">${role.name.substring(5)}</option>`);
         })
         getUser($(button).data("id")).then(user => {
             $("#userDeleteId").val(user.id);
@@ -179,9 +183,10 @@ function fillModalDelete(button) {
 
 function fillFormAddUser() {
     getRoles().then(roles => {
-        $("#userAddRoles").attr("size", roles.length).find("option").remove();
-        roles.forEach(role => {
-            $("#userAddRoles").append(`<option value=\"${role.id}\">${role.name}</option>`);
+        let onlyRoles = roles.filter(role => role.name.startsWith('ROLE_'));
+        $("#userAddRoles").attr("size", onlyRoles.length).find("option").remove();
+        onlyRoles.forEach(role => {
+            $("#userAddRoles").append(`<option value=\"${role.id}\">${role.name.substring(5)}</option>`);
         })
     }).catch(message => {
         $("#userAddAlert").html(`Error fetching roles<br>${message}`).collapse("show");
