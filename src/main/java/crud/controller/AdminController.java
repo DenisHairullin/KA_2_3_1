@@ -46,7 +46,7 @@ public class AdminController {
     @PostMapping(path = "/edit")
     public String processEditUser(@Valid User user, Errors errors, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
-            attributes.addAttribute("fieldErrors", errors.getFieldErrors());
+            attributes.addFlashAttribute("fieldErrors", errors.getFieldErrors());
             return "redirect:/admin/validationError";
         }
         if (userService.getUser(user.getId()) == null) {
