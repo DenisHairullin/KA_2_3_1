@@ -19,7 +19,7 @@ public class MainController {
     @GetMapping
     String showMain(Authentication authentication) {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (roles.contains("ADMIN")) {
+        if (roles.contains("ROLE_ADMIN")) {
             return "redirect:/admin";
         } else {
             return "redirect:/user";

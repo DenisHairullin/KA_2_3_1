@@ -33,7 +33,9 @@
             <td th:text="${user.lastName}">Last Name</td>
             <td th:text="${user.age}">Age</td>
             <td th:text="${user.email}">Email</td>
-            <td th:text="${#strings.arrayJoin(principal.roles.![name], ' ')}">Roles</td>
+            <td th:text="${#strings.arrayJoin(principal.roles.?[name.startsWith('ROLE_')].![name.substring(5)], ' ')}">
+              Roles
+            </td>
           </tr>
           </tbody>
         </table>

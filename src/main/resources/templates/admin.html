@@ -43,8 +43,8 @@
                 <td th:text="${user.lastName}">Last Name</td>
                 <td th:text="${user.age}">Age</td>
                 <td th:text="${user.email}">Email</td>
-                <td th:text="${#strings.arrayJoin(user.roles.![name], ' ')}"
-                    th:data-roles="${user.roles.![id]}">Role</td>
+                <td th:text="${#strings.arrayJoin(user.roles.?[name.startsWith('ROLE_')].![name.substring(5)], ' ')}"
+                    th:data-roles="${user.roles.?[name.startsWith('ROLE_')].![id]}">Role</td>
                 <td>
                   <button class="btn btn-info btn-sm btn-user-edit" type="button"
                           data-toggle="modal" data-target="#modalEdit">Edit</button>
@@ -109,9 +109,10 @@
                       <div class="form-group">
                         <label class="mb-0 font-weight-bold" for="userEditRoles">Role</label>
                         <select class="form-control form-control-sm" id="userEditRoles" multiple="multiple"
-                                th:size="${allRoles.size()}" name="roles">
-                          <option th:each="role : ${allRoles}" th:value="${role.id}"
-                                  th:text="${role.name}">ROLE</option>
+                                th:with="onlyRoles = ${allRoles.?[name.startsWith('ROLE_')]}"
+                                th:size="${onlyRoles.size()}" name="roles">
+                          <option th:each="role : ${onlyRoles}" th:value="${role.id}"
+                                  th:text="${role.name.substring(5)}">ROLE</option>
                         </select>
                       </div>
                     </form>
@@ -163,9 +164,10 @@
                       <div class="form-group">
                         <label class="mb-0 font-weight-bold" for="userDeleteRoles">Role</label>
                         <select class="form-control form-control-sm" id="userDeleteRoles" multiple="multiple"
-                                th:size="${allRoles.size()}" name="roles">
-                          <option th:each="role : ${allRoles}" th:value="${role.id}"
-                                  th:text="${role.name}">ROLE</option>
+                                th:with="onlyRoles = ${allRoles.?[name.startsWith('ROLE_')]}"
+                                th:size="${onlyRoles.size()}" name="roles">
+                          <option th:each="role : ${onlyRoles}" th:value="${role.id}"
+                                  th:text="${role.name.substring(5)}">ROLE</option>
                         </select>
                       </div>
                     </form>
@@ -220,9 +222,10 @@
                   <div class="form-group">
                     <label class="mb-0 font-weight-bold" for="userAddRoles">Role</label>
                     <select class="form-control form-control-sm" id="userAddRoles" multiple="multiple"
-                            th:size="${allRoles.size()}" name="roles">
-                      <option th:each="role : ${allRoles}" th:value="${role.id}"
-                              th:text="${role.name}">ROLE</option>
+                            th:with="onlyRoles = ${allRoles.?[name.startsWith('ROLE_')]}"
+                            th:size="${onlyRoles.size()}" name="roles">
+                      <option th:each="role : ${onlyRoles}" th:value="${role.id}"
+                              th:text="${role.name.substring(5)}">ROLE</option>
                     </select>
                   </div>
                   <button type="submit" class="btn btn-success btn-lg">
