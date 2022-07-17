@@ -4,9 +4,11 @@ import crud.model.Role;
 import crud.model.User;
 import crud.service.RoleService;
 import crud.service.UserService;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,11 +22,13 @@ public class UserRestController {
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final Validator validator;
 
-    public UserRestController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public UserRestController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder, Validator validator) {
         this.userService = userService;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.validator = validator;
     }
 
     @GetMapping("/list")
@@ -57,22 +61,32 @@ public class UserRestController {
     }
 
     @PutMapping("/update")
-    public void updateUser(@RequestBody @Valid User user, Errors errors) {
+    public void updateUser(@RequestBody User user) {
         User userWithId = userService.getUser(user.getId());
         User userWithEmail = userService.getUser(user.getEmail());
+        Errors errors = new BeanPropertyBindingResult(user, "user");
+
+        if (userWithId == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id '" + user.getId() + "' not found");
+        }
+
+        if (user.getPassword().isEmpty()) {
+            user.setPassword(userWithId.getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
+        validator.validate(user, errors);
         if (errors.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User validation error: "
                     + errors.getFieldErrors().stream().map(x -> x.getField() + " " + x.getDefaultMessage())
                     .collect(Collectors.joining("; ")));
         }
-        if (userWithId == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id '" + user.getId() + "' not found");
-        }
+
         if (userWithEmail != null && !userWithEmail.getId().equals(user.getId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email '" + user.getEmail()
                     + "' already exists");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.updateUser(user);
     }
 
