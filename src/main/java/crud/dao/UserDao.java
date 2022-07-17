@@ -7,7 +7,7 @@ public interface UserDao {
     List<User> listUsers();
     User getUser(Long id);
     User getUser(String email);
-    Long addUser(User user);
+    void addUser(User user);
     void updateUser(User user);
     void removeUser(Long id);
     void clearUsers();
