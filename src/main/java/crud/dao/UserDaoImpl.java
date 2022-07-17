@@ -1,6 +1,7 @@
 package crud.dao;
 
 import crud.model.User;
+import org.hibernate.annotations.QueryHints;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,8 +22,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getUser(String email) {
         try {
-            return (User) entityManager.createQuery("select u from User u where u.email = :email")
-                    .setParameter("email", email).getSingleResult();
+            return entityManager.createQuery("select u from User u left join fetch u.roles where u.email = :email",
+                            User.class).setParameter("email", email).getSingleResult();
         } catch (NoResultException | NonUniqueResultException e) {
             return null;
         }
@@ -31,13 +32,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<User> listUsers() {
-        return entityManager.createQuery("select u from User u").getResultList();
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles order by u.id")
+                .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+                .getResultList();
     }
 
     @Override
-    public Long addUser(User user) {
+    public void addUser(User user) {
         entityManager.persist(user);
-        return user.getId();
     }
 
     @Override
@@ -47,7 +49,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void removeUser(Long id) {
-        entityManager.remove(entityManager.find(User.class, id));
+        entityManager.createQuery("delete from User u where u.id = :id")
+                .setParameter("id", id).executeUpdate();
     }
 
     @Override

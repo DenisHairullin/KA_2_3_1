@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ka_2_3_1
+    username: hdr
+    password: hdrUser1
+
+  jpa:
+    show-sql: true
+    hibernate.ddl-auto: update
+    properties.hibernate:
+      format_sql: true
+
+  thymeleaf:
+    enabled: true
+    cache: false
+    encoding: utf-8
+    prefix: classpath:/templates/
+    suffix: .html
+
+logging:
+  file:
+    name: main.log

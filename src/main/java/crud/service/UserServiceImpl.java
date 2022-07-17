@@ -2,12 +2,12 @@ package crud.service;
 
 import crud.dao.UserDao;
 import crud.model.User;
-import org.hibernate.Hibernate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -19,7 +19,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUser(username);
         if (user != null) {
-            Hibernate.initialize(user.getRoles());
             return user;
         } else {
             throw new UsernameNotFoundException("User not found");
@@ -44,8 +43,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public Long addUser(User user) {
-        return userDao.addUser(user);
+    public void addUser(User user) {
+        userDao.addUser(user);
     }
 
     @Override
