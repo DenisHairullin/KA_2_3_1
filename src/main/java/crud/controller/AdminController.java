@@ -7,9 +7,12 @@ import crud.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -19,11 +22,13 @@ public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final Validator validator;
 
-    public AdminController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public AdminController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder, Validator validator) {
         this.userService = userService;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.validator = validator;
     }
 
     @GetMapping
@@ -44,7 +49,16 @@ public class AdminController {
     }
 
     @PutMapping(path = "/edit")
-    public String processEditUser(@Valid User user, Errors errors, RedirectAttributes attributes) {
+    public String processEditUser(User user, RedirectAttributes attributes) {
+        Errors errors = new BeanPropertyBindingResult(user, "user");
+
+        if (user.getPassword().isEmpty()) {
+            user.setPassword(userService.getUser(user.getId()).getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
+        validator.validate(user, errors);
         if (errors.hasErrors()) {
             attributes.addFlashAttribute("fieldErrors", errors.getFieldErrors());
             return "redirect:/admin/validationError";
@@ -53,7 +67,7 @@ public class AdminController {
             attributes.addAttribute("id", user.getId());
             return "redirect:/admin/notFoundError";
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userService.updateUser(user);
         return "redirect:/admin";
     }
