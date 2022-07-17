@@ -43,7 +43,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping(path = "/edit")
+    @PutMapping(path = "/edit")
     public String processEditUser(@Valid User user, Errors errors, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
             attributes.addFlashAttribute("fieldErrors", errors.getFieldErrors());
@@ -58,7 +58,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/remove")
+    @DeleteMapping("/remove")
     public String processRemoveUser(@RequestParam(name = "id") Long id, RedirectAttributes attributes) {
         if (userService.getUser(id) == null) {
             attributes.addAttribute("id", id);
